@@ -1,0 +1,24 @@
+{
+    "welcome": "Welcome!",
+    "discover_potential": "Ready to discover your prosocial potential?",
+    "instructions_1": "There will be a series of statements presented to you. Please pick the option that resonates most with you.",
+    "instructions_2": "There is no wrong or right answer. Your responses will be kept confidential. Your K.A.R.M.A. score will be rated on a scale of 1 to 5.",
+    "start_button": "Let's Start",
+    "cause_novice_title": "Cause Novice",
+    "cause_novice_caption": "Your desire to make a difference indicates your great potential for learning. Your strength lies in learning and networking.",
+
+    "completed_scale_title": "You have completed the scale successfully!",
+    "completed_scale_header": "Woohoo! Congratulations!",
+    "completed_scale_nextButtonText": "Unlock your K.A.R.M.A. profile",
+    "completed_scale_message": "Ready to see your result?",
+
+    "almost_there_title": "Almost there, 90% of the survey is complete now.",
+    "almost_there_header": "woop woop!",
+    "almost_there_message": "Your drivers and values are truly inspiring, shown alongside.\nWhat's next?\nLet's do the final 10% to understand your experiences!",
+    "almost_there_nextButtonText": "Next Step",
+    
+    "great_going_title": "Great going, you are 65% there!",
+    "great_going_header": "YAY!",
+    "great_going_message": "It's where you can find your tribe, your cause, your purpose. And it's all wrapped up in a badass experience.\nRemember that feeling of wanting to make a difference?\nHere's a glimpse of what's ahead.",
+    "great_going_nextButtonText": "Next Step"
+}
