@@ -1,6 +1,5 @@
 import logoSvg from '@/assets/logo.svg'
 import doBeLogoSvg from '@/assets/do-be-logo.svg'
-
 const Logo = (
   props: React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>
 ) => {

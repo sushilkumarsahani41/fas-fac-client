@@ -12,7 +12,10 @@ enum Routes {
   ONBOARDING = '/onboarding',
   SECTION_COMPLETE = '/section-complete',
   LANGUAGE = '/language',
-  DELETE = '/deleteAccount'
+  DELETE = '/deleteAccount',
+  FAS_FAC='/fas-fac',
+  CAUSE='/cause-selection',
+  PLEDGE= '/pledge'
 }
 
 export default Routes

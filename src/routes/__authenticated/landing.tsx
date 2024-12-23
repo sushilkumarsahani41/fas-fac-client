@@ -36,7 +36,7 @@ export function Component() {
                     .typeString('Data. Immersion. Action.')
                     .pauseFor(3000)
                     .callFunction(() => {
-                      navigate(Routes.LANGUAGE)
+                      navigate(Routes.FAS_FAC)
                     })
                     .start()
                 }}
