@@ -31,3 +31,4 @@ export const initatePaymentAtom = atomWithStorage('initatePayment', {
     productinfo: '',
     phone: '',
 } , storage , {getOnInit:true})
+export const txnidAtom =atomWithStorage('txnid',null,storage,{getOnInit:true})

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {useAtom} from "jotai";
-import {accessTokenAtom, initatePaymentAtom} from "@/data/store.ts";
+import {accessTokenAtom, initatePaymentAtom, txnidAtom} from "@/data/store.ts";
 
 import CryptoJS from 'crypto-js';
 import {useProfileControllerGetUserProfile} from "@/api/auth.ts";
@@ -34,11 +34,13 @@ const loadPayUScript = (): Promise<void> => {
 
 const PayUCheckout: React.FC = () => {
     const [accessToken] = useAtom(accessTokenAtom);
+    const [txnid , setTxnid] = useAtom(txnidAtom);
     const { data: profileInfo } = useProfileControllerGetUserProfile({
         query: {
             enabled: !!accessToken,
         },
     })
+
     const surl = `https://uat.backend.cause-i.ai/v1/payments`;
     const furl = `https://uat.backend.cause-i.ai/v1/payments`;
     const [initatePayment] =useAtom(initatePaymentAtom);
@@ -60,8 +62,7 @@ const PayUCheckout: React.FC = () => {
         const timestamp = Date.now(); // Get current timestamp
         return `IM_${timestamp}`;
     };
-
-    const txnid = generateTransactionID(); // Generate transaction ID
+    setTxnid(generateTransactionID()); // Generate transaction ID
 
     const startPayment = async () => {
         // Call your backend API to generate the hash
