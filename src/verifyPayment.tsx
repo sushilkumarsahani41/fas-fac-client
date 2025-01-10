@@ -8,7 +8,7 @@ import Routes from "@/data/routes.ts";
 import {ImArrowRight2} from "react-icons/im";
 
 const VerifyPayment: React.FC = () => {
-    const {txnid} = useAtom(txnidAtom)// Access token from Jotai store
+    const [txnid] = useAtom(txnidAtom)
     const navigate = useNavigate();
 
     const { data: txnDetails, isLoading, isError, error } = usePaymentControllerGetPaymentByTxnId(txnid, {});
