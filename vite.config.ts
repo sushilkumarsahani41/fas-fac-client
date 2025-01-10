@@ -8,7 +8,7 @@ import jotaiReactRefresh from 'jotai/babel/plugin-react-refresh'
 // https://vitejs.dev/config/
 export default defineConfig({
   preview: {
-    port: 8000,
+    port: 8003,
   },
   plugins: [
     react({ babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] } }),
