@@ -15,7 +15,9 @@ enum Routes {
   DELETE = '/deleteAccount',
   FAS_FAC='/fas-fac',
   CAUSE='/cause-selection',
-  PLEDGE= '/pledge'
+  PLEDGE= '/pledge',
+  PAYMENT='/payment',
+  VERIFYPAYMENT='/verify-payment'
 }
 
 export default Routes

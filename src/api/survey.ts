@@ -3,7 +3,7 @@
  * Do not edit manually.
  * Cause I API
  * Cause I API Documentation
- * OpenAPI spec version: 1.0
+ * OpenAPI spec version: 1.1
  */
 import { useMutation, useQuery } from '@tanstack/react-query'
 import type {
@@ -16,6 +16,15 @@ import type {
 } from '@tanstack/react-query'
 import { useCustomInstance } from './survey.axios'
 import type { ErrorType } from './survey.axios'
+export interface FeedbackReportDto {
+  comment: string
+  createdAt: string
+  email: string
+  id: number
+  name: string
+  rating: number
+}
+
 export interface CreateFeedbackDto {
   comment?: string
   rating: number
@@ -69,7 +78,6 @@ export interface OptionDto {
   id: number
   questionId: number
   updatedAt: string
-  multiLanguage: any
 }
 
 export interface QuestionDto {
@@ -85,11 +93,6 @@ export interface QuestionDto {
   title: string
   type: QuestionDtoType
   updatedAt: string
-  multiLanguage: any
-}
-
-export interface hindi {
-  hindi: string
 }
 
 export type SurveyDtoStatus = (typeof SurveyDtoStatus)[keyof typeof SurveyDtoStatus]
@@ -106,6 +109,163 @@ export interface SurveyDto {
   id: number
   status: SurveyDtoStatus
   title: string
+  updatedAt: string
+}
+
+export interface PaymentDto {
+  /** Payment Amount */
+  amount: string
+  /** Bank Reference Number */
+  bank_ref_num: string
+  /** Email Address */
+  email: string
+  /** First Name */
+  firstname: string
+  /** Payment Hash */
+  hash: string
+  /** PayU Payment ID */
+  mihpayid: string
+  /** Payment Mode */
+  mode: string
+  /** Phone Number */
+  phone: string
+  /** Product Information */
+  productinfo: string
+  /** Payment Status */
+  status: string
+  /** Transaction ID */
+  txnid: string
+}
+
+export interface CreatePaymentDto {
+  /** Payment Amount */
+  amount: string
+  /** Bank Reference Number */
+  bank_ref_num: string
+  /** Email Address */
+  email: string
+  /** First Name */
+  firstname: string
+  /** Payment Hash */
+  hash: string
+  /** PayU Payment ID */
+  mihpayid: string
+  /** Payment Mode */
+  mode: string
+  /** Phone Number */
+  phone: string
+  /** Product Information */
+  productinfo: string
+  /** Payment Status */
+  status: string
+  /** Transaction ID */
+  txnid: string
+}
+
+export interface UpdateFasfacUserPrefsDto {
+  /** Age of the user */
+  age?: number
+  /** Amount pledged by the user */
+  amountPledged?: number
+  /** Full name of the user */
+  fullName?: string
+  /** Gender of the user */
+  gender?: string
+  /** Nationality of the user */
+  nationality?: string
+  /** Payment ID for the transaction */
+  paymentId?: string
+  /** Phone number of the user */
+  phoneNumber?: string
+  /** Profession of the user */
+  profession?: string
+}
+
+export interface FasfacUserPrefsDto {
+  /** Age of the user */
+  age?: number
+  /** Amount pledged by the user */
+  amountPledged?: number
+  /** ID of the cause */
+  causeId: number
+  /** Created Time */
+  createdAt: string
+  /** Full name of the user */
+  fullName?: string
+  /** Gender of the user */
+  gender?: string
+  /** Nationality of the user */
+  nationality?: string
+  /** Payment ID for the transaction */
+  paymentId?: string
+  /** Phone number of the user */
+  phoneNumber?: string
+  /** Profession of the user */
+  profession?: string
+  /** Last Updated Time */
+  updatedAt: string
+  /** ID of the user */
+  userId: number
+}
+
+export interface CreateFasfacUserPrefsDto {
+  /** ID of the cause */
+  causeId: number
+  /** ID of the user */
+  userId: number
+}
+
+export interface DeleteFasfacCauseDto {
+  /** Cause with id id deleted */
+  message: string
+}
+
+export interface UpdateFasfacCauseDto {
+  /** Colour In #FFFFFF */
+  colour: string
+  /** Description of the cause */
+  description: string
+  /** Description of the cause in Hindi */
+  descriptionHindi: string
+  /** Image URl */
+  imageUrl: string
+  /** Name of the cause */
+  name: string
+  /** Name of the cause in Hindi */
+  nameHindi: string
+}
+
+export interface FasfacCauseDto {
+  /** Colour In #FFFFFF */
+  colour: string
+  /** Timestamp when the cause was created */
+  createdAt: string
+  /** Description of the cause */
+  description: string
+  /** Description of the cause in Hindi */
+  descriptionHindi: string
+  /** Unique identifier of the cause */
+  id: number
+  /** Image URL */
+  imageUrl: string
+  /** Name of the cause */
+  name: string
+  /** Name of the cause in Hindi */
+  nameHindi: string
+  /** Timestamp when the cause was last updated */
+  updatedAt: string
+}
+
+export interface CreateFasfacCauseDto {
+  createdAt: string
+  /** Description of the cause */
+  description: string
+  /** Description of the cause in Hindi */
+  descriptionHindi: string
+  /** Name of the cause */
+  name: string
+  /** Name of the cause in Hindi */
+  nameHindi: string
   updatedAt: string
 }
 
@@ -412,6 +572,855 @@ export const useAppControllerSendResultEmail = <
   const mutationOptions = useAppControllerSendResultEmailMutationOptions(options)
 
   return useMutation(mutationOptions)
+}
+
+export const useFasfacCauseControllerCreateCauseHook = () => {
+  const fasfacCauseControllerCreateCause = useCustomInstance<FasfacCauseDto>()
+
+  return (createFasfacCauseDto: CreateFasfacCauseDto) => {
+    return fasfacCauseControllerCreateCause({
+      url: `/v1/cause`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: createFasfacCauseDto,
+    })
+  }
+}
+
+export const useFasfacCauseControllerCreateCauseMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerCreateCauseHook>>>,
+    TError,
+    { data: CreateFasfacCauseDto },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerCreateCauseHook>>>,
+  TError,
+  { data: CreateFasfacCauseDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
+
+  const fasfacCauseControllerCreateCause = useFasfacCauseControllerCreateCauseHook()
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerCreateCauseHook>>>,
+    { data: CreateFasfacCauseDto }
+  > = (props) => {
+    const { data } = props ?? {}
+
+    return fasfacCauseControllerCreateCause(data)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type FasfacCauseControllerCreateCauseMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerCreateCauseHook>>>
+>
+export type FasfacCauseControllerCreateCauseMutationBody = CreateFasfacCauseDto
+export type FasfacCauseControllerCreateCauseMutationError = ErrorType<unknown>
+
+export const useFasfacCauseControllerCreateCause = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerCreateCauseHook>>>,
+    TError,
+    { data: CreateFasfacCauseDto },
+    TContext
+  >
+}) => {
+  const mutationOptions = useFasfacCauseControllerCreateCauseMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+
+export const useFasfacCauseControllerFindAllHook = () => {
+  const fasfacCauseControllerFindAll = useCustomInstance<FasfacCauseDto>()
+
+  return (signal?: AbortSignal) => {
+    return fasfacCauseControllerFindAll({ url: `/v1/cause`, method: 'GET', signal })
+  }
+}
+
+export const getFasfacCauseControllerFindAllQueryKey = () => {
+  return [`/v1/cause`] as const
+}
+
+export const useFasfacCauseControllerFindAllQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerFindAllHook>>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerFindAllHook>>>,
+      TError,
+      TData
+    >
+  >
+}) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getFasfacCauseControllerFindAllQueryKey()
+
+  const fasfacCauseControllerFindAll = useFasfacCauseControllerFindAllHook()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerFindAllHook>>>
+  > = ({ signal }) => fasfacCauseControllerFindAll(signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerFindAllHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type FasfacCauseControllerFindAllQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerFindAllHook>>>
+>
+export type FasfacCauseControllerFindAllQueryError = ErrorType<unknown>
+
+export const useFasfacCauseControllerFindAll = <
+  TData = Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerFindAllHook>>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerFindAllHook>>>,
+      TError,
+      TData
+    >
+  >
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useFasfacCauseControllerFindAllQueryOptions(options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+export const useFasfacCauseControllerFindOneHook = () => {
+  const fasfacCauseControllerFindOne = useCustomInstance<FasfacCauseDto>()
+
+  return (id: number, signal?: AbortSignal) => {
+    return fasfacCauseControllerFindOne({ url: `/v1/cause/${id}`, method: 'GET', signal })
+  }
+}
+
+export const getFasfacCauseControllerFindOneQueryKey = (id: number) => {
+  return [`/v1/cause/${id}`] as const
+}
+
+export const useFasfacCauseControllerFindOneQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerFindOneHook>>>,
+  TError = ErrorType<unknown>,
+>(
+  id: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerFindOneHook>>>,
+        TError,
+        TData
+      >
+    >
+  }
+) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getFasfacCauseControllerFindOneQueryKey(id)
+
+  const fasfacCauseControllerFindOne = useFasfacCauseControllerFindOneHook()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerFindOneHook>>>
+  > = ({ signal }) => fasfacCauseControllerFindOne(id, signal)
+
+  return { queryKey, queryFn, enabled: !!id, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerFindOneHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type FasfacCauseControllerFindOneQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerFindOneHook>>>
+>
+export type FasfacCauseControllerFindOneQueryError = ErrorType<unknown>
+
+export const useFasfacCauseControllerFindOne = <
+  TData = Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerFindOneHook>>>,
+  TError = ErrorType<unknown>,
+>(
+  id: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerFindOneHook>>>,
+        TError,
+        TData
+      >
+    >
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useFasfacCauseControllerFindOneQueryOptions(id, options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+export const useFasfacCauseControllerUpdateHook = () => {
+  const fasfacCauseControllerUpdate = useCustomInstance<FasfacCauseDto>()
+
+  return (id: number, updateFasfacCauseDto: UpdateFasfacCauseDto) => {
+    return fasfacCauseControllerUpdate({
+      url: `/v1/cause/${id}`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: updateFasfacCauseDto,
+    })
+  }
+}
+
+export const useFasfacCauseControllerUpdateMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerUpdateHook>>>,
+    TError,
+    { id: number; data: UpdateFasfacCauseDto },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerUpdateHook>>>,
+  TError,
+  { id: number; data: UpdateFasfacCauseDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
+
+  const fasfacCauseControllerUpdate = useFasfacCauseControllerUpdateHook()
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerUpdateHook>>>,
+    { id: number; data: UpdateFasfacCauseDto }
+  > = (props) => {
+    const { id, data } = props ?? {}
+
+    return fasfacCauseControllerUpdate(id, data)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type FasfacCauseControllerUpdateMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerUpdateHook>>>
+>
+export type FasfacCauseControllerUpdateMutationBody = UpdateFasfacCauseDto
+export type FasfacCauseControllerUpdateMutationError = ErrorType<unknown>
+
+export const useFasfacCauseControllerUpdate = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerUpdateHook>>>,
+    TError,
+    { id: number; data: UpdateFasfacCauseDto },
+    TContext
+  >
+}) => {
+  const mutationOptions = useFasfacCauseControllerUpdateMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+
+export const useFasfacCauseControllerDeleteHook = () => {
+  const fasfacCauseControllerDelete = useCustomInstance<DeleteFasfacCauseDto>()
+
+  return (id: number) => {
+    return fasfacCauseControllerDelete({ url: `/v1/cause/${id}`, method: 'DELETE' })
+  }
+}
+
+export const useFasfacCauseControllerDeleteMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerDeleteHook>>>,
+    TError,
+    { id: number },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerDeleteHook>>>,
+  TError,
+  { id: number },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
+
+  const fasfacCauseControllerDelete = useFasfacCauseControllerDeleteHook()
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerDeleteHook>>>,
+    { id: number }
+  > = (props) => {
+    const { id } = props ?? {}
+
+    return fasfacCauseControllerDelete(id)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type FasfacCauseControllerDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerDeleteHook>>>
+>
+
+export type FasfacCauseControllerDeleteMutationError = ErrorType<unknown>
+
+export const useFasfacCauseControllerDelete = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useFasfacCauseControllerDeleteHook>>>,
+    TError,
+    { id: number },
+    TContext
+  >
+}) => {
+  const mutationOptions = useFasfacCauseControllerDeleteMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Create a new user preference
+ */
+export const useFasfacUserPrefsControllerCreateHook = () => {
+  const fasfacUserPrefsControllerCreate = useCustomInstance<CreateFasfacUserPrefsDto>()
+
+  return (createFasfacUserPrefsDto: CreateFasfacUserPrefsDto) => {
+    return fasfacUserPrefsControllerCreate({
+      url: `/v1/cause-user-prefs`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: createFasfacUserPrefsDto,
+    })
+  }
+}
+
+export const useFasfacUserPrefsControllerCreateMutationOptions = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerCreateHook>>>,
+    TError,
+    { data: CreateFasfacUserPrefsDto },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerCreateHook>>>,
+  TError,
+  { data: CreateFasfacUserPrefsDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
+
+  const fasfacUserPrefsControllerCreate = useFasfacUserPrefsControllerCreateHook()
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerCreateHook>>>,
+    { data: CreateFasfacUserPrefsDto }
+  > = (props) => {
+    const { data } = props ?? {}
+
+    return fasfacUserPrefsControllerCreate(data)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type FasfacUserPrefsControllerCreateMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerCreateHook>>>
+>
+export type FasfacUserPrefsControllerCreateMutationBody = CreateFasfacUserPrefsDto
+export type FasfacUserPrefsControllerCreateMutationError = ErrorType<void>
+
+/**
+ * @summary Create a new user preference
+ */
+export const useFasfacUserPrefsControllerCreate = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerCreateHook>>>,
+    TError,
+    { data: CreateFasfacUserPrefsDto },
+    TContext
+  >
+}) => {
+  const mutationOptions = useFasfacUserPrefsControllerCreateMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get all user preferences
+ */
+export const useFasfacUserPrefsControllerFindAllHook = () => {
+  const fasfacUserPrefsControllerFindAll = useCustomInstance<FasfacUserPrefsDto>()
+
+  return (signal?: AbortSignal) => {
+    return fasfacUserPrefsControllerFindAll({ url: `/v1/cause-user-prefs`, method: 'GET', signal })
+  }
+}
+
+export const getFasfacUserPrefsControllerFindAllQueryKey = () => {
+  return [`/v1/cause-user-prefs`] as const
+}
+
+export const useFasfacUserPrefsControllerFindAllQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerFindAllHook>>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerFindAllHook>>>,
+      TError,
+      TData
+    >
+  >
+}) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getFasfacUserPrefsControllerFindAllQueryKey()
+
+  const fasfacUserPrefsControllerFindAll = useFasfacUserPrefsControllerFindAllHook()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerFindAllHook>>>
+  > = ({ signal }) => fasfacUserPrefsControllerFindAll(signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerFindAllHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type FasfacUserPrefsControllerFindAllQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerFindAllHook>>>
+>
+export type FasfacUserPrefsControllerFindAllQueryError = ErrorType<unknown>
+
+/**
+ * @summary Get all user preferences
+ */
+export const useFasfacUserPrefsControllerFindAll = <
+  TData = Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerFindAllHook>>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerFindAllHook>>>,
+      TError,
+      TData
+    >
+  >
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useFasfacUserPrefsControllerFindAllQueryOptions(options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * @summary Get a specific user preference by ID
+ */
+export const useFasfacUserPrefsControllerFindOneHook = () => {
+  const fasfacUserPrefsControllerFindOne = useCustomInstance<FasfacUserPrefsDto>()
+
+  return (id: number, signal?: AbortSignal) => {
+    return fasfacUserPrefsControllerFindOne({
+      url: `/v1/cause-user-prefs/${id}`,
+      method: 'GET',
+      signal,
+    })
+  }
+}
+
+export const getFasfacUserPrefsControllerFindOneQueryKey = (id: number) => {
+  return [`/v1/cause-user-prefs/${id}`] as const
+}
+
+export const useFasfacUserPrefsControllerFindOneQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerFindOneHook>>>,
+  TError = ErrorType<void>,
+>(
+  id: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerFindOneHook>>>,
+        TError,
+        TData
+      >
+    >
+  }
+) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getFasfacUserPrefsControllerFindOneQueryKey(id)
+
+  const fasfacUserPrefsControllerFindOne = useFasfacUserPrefsControllerFindOneHook()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerFindOneHook>>>
+  > = ({ signal }) => fasfacUserPrefsControllerFindOne(id, signal)
+
+  return { queryKey, queryFn, enabled: !!id, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerFindOneHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type FasfacUserPrefsControllerFindOneQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerFindOneHook>>>
+>
+export type FasfacUserPrefsControllerFindOneQueryError = ErrorType<void>
+
+/**
+ * @summary Get a specific user preference by ID
+ */
+export const useFasfacUserPrefsControllerFindOne = <
+  TData = Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerFindOneHook>>>,
+  TError = ErrorType<void>,
+>(
+  id: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerFindOneHook>>>,
+        TError,
+        TData
+      >
+    >
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useFasfacUserPrefsControllerFindOneQueryOptions(id, options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * @summary Update a user preference by ID
+ */
+export const useFasfacUserPrefsControllerUpdateHook = () => {
+  const fasfacUserPrefsControllerUpdate = useCustomInstance<FasfacUserPrefsDto>()
+
+  return (id: number, updateFasfacUserPrefsDto: UpdateFasfacUserPrefsDto) => {
+    return fasfacUserPrefsControllerUpdate({
+      url: `/v1/cause-user-prefs/${id}`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: updateFasfacUserPrefsDto,
+    })
+  }
+}
+
+export const useFasfacUserPrefsControllerUpdateMutationOptions = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerUpdateHook>>>,
+    TError,
+    { id: number; data: UpdateFasfacUserPrefsDto },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerUpdateHook>>>,
+  TError,
+  { id: number; data: UpdateFasfacUserPrefsDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
+
+  const fasfacUserPrefsControllerUpdate = useFasfacUserPrefsControllerUpdateHook()
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerUpdateHook>>>,
+    { id: number; data: UpdateFasfacUserPrefsDto }
+  > = (props) => {
+    const { id, data } = props ?? {}
+
+    return fasfacUserPrefsControllerUpdate(id, data)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type FasfacUserPrefsControllerUpdateMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerUpdateHook>>>
+>
+export type FasfacUserPrefsControllerUpdateMutationBody = UpdateFasfacUserPrefsDto
+export type FasfacUserPrefsControllerUpdateMutationError = ErrorType<void>
+
+/**
+ * @summary Update a user preference by ID
+ */
+export const useFasfacUserPrefsControllerUpdate = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useFasfacUserPrefsControllerUpdateHook>>>,
+    TError,
+    { id: number; data: UpdateFasfacUserPrefsDto },
+    TContext
+  >
+}) => {
+  const mutationOptions = useFasfacUserPrefsControllerUpdateMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+
+export const usePaymentControllerCreatePaymentHook = () => {
+  const paymentControllerCreatePayment = useCustomInstance<CreatePaymentDto>()
+
+  return (createPaymentDto: CreatePaymentDto) => {
+    return paymentControllerCreatePayment({
+      url: `/v1/payments`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: createPaymentDto,
+    })
+  }
+}
+
+export const usePaymentControllerCreatePaymentMutationOptions = <
+  TError = ErrorType<CreatePaymentDto>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof usePaymentControllerCreatePaymentHook>>>,
+    TError,
+    { data: CreatePaymentDto },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<ReturnType<typeof usePaymentControllerCreatePaymentHook>>>,
+  TError,
+  { data: CreatePaymentDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
+
+  const paymentControllerCreatePayment = usePaymentControllerCreatePaymentHook()
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<ReturnType<typeof usePaymentControllerCreatePaymentHook>>>,
+    { data: CreatePaymentDto }
+  > = (props) => {
+    const { data } = props ?? {}
+
+    return paymentControllerCreatePayment(data)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PaymentControllerCreatePaymentMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof usePaymentControllerCreatePaymentHook>>>
+>
+export type PaymentControllerCreatePaymentMutationBody = CreatePaymentDto
+export type PaymentControllerCreatePaymentMutationError = ErrorType<CreatePaymentDto>
+
+export const usePaymentControllerCreatePayment = <
+  TError = ErrorType<CreatePaymentDto>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof usePaymentControllerCreatePaymentHook>>>,
+    TError,
+    { data: CreatePaymentDto },
+    TContext
+  >
+}) => {
+  const mutationOptions = usePaymentControllerCreatePaymentMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+
+export const usePaymentControllerGetAllPaymentsHook = () => {
+  const paymentControllerGetAllPayments = useCustomInstance<PaymentDto>()
+
+  return (signal?: AbortSignal) => {
+    return paymentControllerGetAllPayments({ url: `/v1/payments`, method: 'GET', signal })
+  }
+}
+
+export const getPaymentControllerGetAllPaymentsQueryKey = () => {
+  return [`/v1/payments`] as const
+}
+
+export const usePaymentControllerGetAllPaymentsQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof usePaymentControllerGetAllPaymentsHook>>>,
+  TError = ErrorType<PaymentDto>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<ReturnType<typeof usePaymentControllerGetAllPaymentsHook>>>,
+      TError,
+      TData
+    >
+  >
+}) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getPaymentControllerGetAllPaymentsQueryKey()
+
+  const paymentControllerGetAllPayments = usePaymentControllerGetAllPaymentsHook()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof usePaymentControllerGetAllPaymentsHook>>>
+  > = ({ signal }) => paymentControllerGetAllPayments(signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof usePaymentControllerGetAllPaymentsHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type PaymentControllerGetAllPaymentsQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof usePaymentControllerGetAllPaymentsHook>>>
+>
+export type PaymentControllerGetAllPaymentsQueryError = ErrorType<PaymentDto>
+
+export const usePaymentControllerGetAllPayments = <
+  TData = Awaited<ReturnType<ReturnType<typeof usePaymentControllerGetAllPaymentsHook>>>,
+  TError = ErrorType<PaymentDto>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<ReturnType<typeof usePaymentControllerGetAllPaymentsHook>>>,
+      TError,
+      TData
+    >
+  >
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = usePaymentControllerGetAllPaymentsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+export const usePaymentControllerGetPaymentByTxnIdHook = () => {
+  const paymentControllerGetPaymentByTxnId = useCustomInstance<PaymentDto>()
+
+  return (txnid: string, signal?: AbortSignal) => {
+    return paymentControllerGetPaymentByTxnId({
+      url: `/v1/payments/${txnid}`,
+      method: 'GET',
+      signal,
+    })
+  }
+}
+
+export const getPaymentControllerGetPaymentByTxnIdQueryKey = (txnid: string) => {
+  return [`/v1/payments/${txnid}`] as const
+}
+
+export const usePaymentControllerGetPaymentByTxnIdQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof usePaymentControllerGetPaymentByTxnIdHook>>>,
+  TError = ErrorType<PaymentDto>,
+>(
+  txnid: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof usePaymentControllerGetPaymentByTxnIdHook>>>,
+        TError,
+        TData
+      >
+    >
+  }
+) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getPaymentControllerGetPaymentByTxnIdQueryKey(txnid)
+
+  const paymentControllerGetPaymentByTxnId = usePaymentControllerGetPaymentByTxnIdHook()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof usePaymentControllerGetPaymentByTxnIdHook>>>
+  > = ({ signal }) => paymentControllerGetPaymentByTxnId(txnid, signal)
+
+  return { queryKey, queryFn, enabled: !!txnid, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof usePaymentControllerGetPaymentByTxnIdHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type PaymentControllerGetPaymentByTxnIdQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof usePaymentControllerGetPaymentByTxnIdHook>>>
+>
+export type PaymentControllerGetPaymentByTxnIdQueryError = ErrorType<PaymentDto>
+
+export const usePaymentControllerGetPaymentByTxnId = <
+  TData = Awaited<ReturnType<ReturnType<typeof usePaymentControllerGetPaymentByTxnIdHook>>>,
+  TError = ErrorType<PaymentDto>,
+>(
+  txnid: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof usePaymentControllerGetPaymentByTxnIdHook>>>,
+        TError,
+        TData
+      >
+    >
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = usePaymentControllerGetPaymentByTxnIdQueryOptions(txnid, options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
 }
 
 export const useSurveyControllerGetAllHook = () => {
@@ -976,6 +1985,137 @@ export const useSurveyControllerMarkAsComplete = <
   >
 }) => {
   const mutationOptions = useSurveyControllerMarkAsCompleteMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+
+export const useAnalyticsControllerGetFeedbackReportHook = () => {
+  const analyticsControllerGetFeedbackReport = useCustomInstance<FeedbackReportDto[]>()
+
+  return (signal?: AbortSignal) => {
+    return analyticsControllerGetFeedbackReport({ url: `/v1/analytics`, method: 'GET', signal })
+  }
+}
+
+export const getAnalyticsControllerGetFeedbackReportQueryKey = () => {
+  return [`/v1/analytics`] as const
+}
+
+export const useAnalyticsControllerGetFeedbackReportQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useAnalyticsControllerGetFeedbackReportHook>>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<ReturnType<typeof useAnalyticsControllerGetFeedbackReportHook>>>,
+      TError,
+      TData
+    >
+  >
+}) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getAnalyticsControllerGetFeedbackReportQueryKey()
+
+  const analyticsControllerGetFeedbackReport = useAnalyticsControllerGetFeedbackReportHook()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useAnalyticsControllerGetFeedbackReportHook>>>
+  > = ({ signal }) => analyticsControllerGetFeedbackReport(signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useAnalyticsControllerGetFeedbackReportHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type AnalyticsControllerGetFeedbackReportQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useAnalyticsControllerGetFeedbackReportHook>>>
+>
+export type AnalyticsControllerGetFeedbackReportQueryError = ErrorType<unknown>
+
+export const useAnalyticsControllerGetFeedbackReport = <
+  TData = Awaited<ReturnType<ReturnType<typeof useAnalyticsControllerGetFeedbackReportHook>>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<ReturnType<typeof useAnalyticsControllerGetFeedbackReportHook>>>,
+      TError,
+      TData
+    >
+  >
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useAnalyticsControllerGetFeedbackReportQueryOptions(options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+export const useSeederControllerSeedHindiQuestionsAndOptionsHook = () => {
+  const seederControllerSeedHindiQuestionsAndOptions = useCustomInstance<void>()
+
+  return () => {
+    return seederControllerSeedHindiQuestionsAndOptions({
+      url: `/v1/seeders/seed-hindi-questions-answers`,
+      method: 'POST',
+    })
+  }
+}
+
+export const useSeederControllerSeedHindiQuestionsAndOptionsMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useSeederControllerSeedHindiQuestionsAndOptionsHook>>>,
+    TError,
+    void,
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<ReturnType<typeof useSeederControllerSeedHindiQuestionsAndOptionsHook>>>,
+  TError,
+  void,
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
+
+  const seederControllerSeedHindiQuestionsAndOptions =
+    useSeederControllerSeedHindiQuestionsAndOptionsHook()
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<ReturnType<typeof useSeederControllerSeedHindiQuestionsAndOptionsHook>>>,
+    void
+  > = () => {
+    return seederControllerSeedHindiQuestionsAndOptions()
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type SeederControllerSeedHindiQuestionsAndOptionsMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useSeederControllerSeedHindiQuestionsAndOptionsHook>>>
+>
+
+export type SeederControllerSeedHindiQuestionsAndOptionsMutationError = ErrorType<unknown>
+
+export const useSeederControllerSeedHindiQuestionsAndOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useSeederControllerSeedHindiQuestionsAndOptionsHook>>>,
+    TError,
+    void,
+    TContext
+  >
+}) => {
+  const mutationOptions = useSeederControllerSeedHindiQuestionsAndOptionsMutationOptions(options)
 
   return useMutation(mutationOptions)
 }

@@ -16,7 +16,7 @@ export default defineConfig({
       },
     },
     input: {
-      target: 'http://127.0.0.1:3300/v1-yaml',
+      target: 'https://uat.auth.cause-i.ai/v1-yaml',
     },
   },
   surveyApi: {
@@ -34,7 +34,7 @@ export default defineConfig({
       },
     },
     input: {
-      target: 'http://127.0.0.1:3200/v1-yaml',
+      target: 'https://uat.backend.cause-i.ai/v1-yaml',
     },
   },
 })

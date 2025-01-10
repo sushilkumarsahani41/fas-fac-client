@@ -16,6 +16,10 @@ import type {
 } from '@tanstack/react-query'
 import { useCustomInstance } from './auth.axios'
 import type { ErrorType } from './auth.axios'
+export type ProfileControllerUploadFileBody = {
+  profileImage?: Blob
+}
+
 export interface UpdateProfileDto {
   city?: string
   contactNumber?: number
@@ -28,9 +32,12 @@ export interface UpdateProfileDto {
   nationality?: string
   pincode?: number
   profession?: string
+  profileImage?: string
   purposeCode?: string
   qualification?: string
+  slogan?: string
   state?: string
+  userName?: string
 }
 
 export interface ProfileMetaDto {
@@ -383,63 +390,6 @@ export const useAppControllerResendCode = <
   return useMutation(mutationOptions)
 }
 
-export const useProfileControllerDeleteUserProfileHook = () => {
-  const profileControllerDeleteUserProfile = useCustomInstance<ProfileResponseDto>()
-
-  return (signal?: AbortSignal) => {
-    return profileControllerDeleteUserProfile({
-      url: `/v1/profile`,
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      signal
-    })
-  }
-}
-
-export const useProfileControllerDeleteUserProfileMutationOptions = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<ReturnType<typeof useProfileControllerDeleteUserProfileHook>>>,
-    TError,
-    void,
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<ReturnType<typeof useProfileControllerDeleteUserProfileHook>>>,
-  TError,
-  void,
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {}
-
-  const profileControllerDeleteUserProfile = useProfileControllerDeleteUserProfileHook()
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<ReturnType<typeof useProfileControllerDeleteUserProfileHook>>>,
-    void
-  > = () => profileControllerDeleteUserProfile()
-
-  return { mutationFn, ...mutationOptions }
-}
-
-export const useProfileControllerDeleteUserProfile = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<ReturnType<typeof useProfileControllerDeleteUserProfileHook>>>,
-    TError,
-    void,
-    TContext
-  >
-}) => {
-  const mutationOptions = useProfileControllerDeleteUserProfileMutationOptions(options)
-
-  return useMutation(mutationOptions)
-}
-
 export const useProfileControllerGetUserProfileHook = () => {
   const profileControllerGetUserProfile = useCustomInstance<ProfileResponseDto>()
 
@@ -574,6 +524,66 @@ export const useProfileControllerUpdateUserProfile = <
   return useMutation(mutationOptions)
 }
 
+export const useProfileControllerDeleteUserProfileHook = () => {
+  const profileControllerDeleteUserProfile = useCustomInstance<void>()
+
+  return () => {
+    return profileControllerDeleteUserProfile({ url: `/v1/profile`, method: 'DELETE' })
+  }
+}
+
+export const useProfileControllerDeleteUserProfileMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useProfileControllerDeleteUserProfileHook>>>,
+    TError,
+    void,
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<ReturnType<typeof useProfileControllerDeleteUserProfileHook>>>,
+  TError,
+  void,
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
+
+  const profileControllerDeleteUserProfile = useProfileControllerDeleteUserProfileHook()
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<ReturnType<typeof useProfileControllerDeleteUserProfileHook>>>,
+    void
+  > = () => {
+    return profileControllerDeleteUserProfile()
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type ProfileControllerDeleteUserProfileMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useProfileControllerDeleteUserProfileHook>>>
+>
+
+export type ProfileControllerDeleteUserProfileMutationError = ErrorType<unknown>
+
+export const useProfileControllerDeleteUserProfile = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useProfileControllerDeleteUserProfileHook>>>,
+    TError,
+    void,
+    TContext
+  >
+}) => {
+  const mutationOptions = useProfileControllerDeleteUserProfileMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+
 export const useProfileControllerGetUserMetaHook = () => {
   const profileControllerGetUserMeta = useCustomInstance<ProfileMetaDto>()
 
@@ -639,4 +649,82 @@ export const useProfileControllerGetUserMeta = <
   query.queryKey = queryOptions.queryKey
 
   return query
+}
+
+/**
+ * @summary Upload a file
+ */
+export const useProfileControllerUploadFileHook = () => {
+  const profileControllerUploadFile = useCustomInstance<void>()
+
+  return (profileControllerUploadFileBody: ProfileControllerUploadFileBody) => {
+    const formData = new FormData()
+    if (profileControllerUploadFileBody.profileImage !== undefined) {
+      formData.append('profileImage', profileControllerUploadFileBody.profileImage)
+    }
+
+    return profileControllerUploadFile({
+      url: `/v1/profile/upload`,
+      method: 'POST',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      data: formData,
+    })
+  }
+}
+
+export const useProfileControllerUploadFileMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useProfileControllerUploadFileHook>>>,
+    TError,
+    { data: ProfileControllerUploadFileBody },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<ReturnType<typeof useProfileControllerUploadFileHook>>>,
+  TError,
+  { data: ProfileControllerUploadFileBody },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
+
+  const profileControllerUploadFile = useProfileControllerUploadFileHook()
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<ReturnType<typeof useProfileControllerUploadFileHook>>>,
+    { data: ProfileControllerUploadFileBody }
+  > = (props) => {
+    const { data } = props ?? {}
+
+    return profileControllerUploadFile(data)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type ProfileControllerUploadFileMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useProfileControllerUploadFileHook>>>
+>
+export type ProfileControllerUploadFileMutationBody = ProfileControllerUploadFileBody
+export type ProfileControllerUploadFileMutationError = ErrorType<unknown>
+
+/**
+ * @summary Upload a file
+ */
+export const useProfileControllerUploadFile = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useProfileControllerUploadFileHook>>>,
+    TError,
+    { data: ProfileControllerUploadFileBody },
+    TContext
+  >
+}) => {
+  const mutationOptions = useProfileControllerUploadFileMutationOptions(options)
+
+  return useMutation(mutationOptions)
 }

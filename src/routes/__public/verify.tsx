@@ -36,7 +36,7 @@ export function Component() {
     mutation: {
       onSuccess(data) {
         setAccessToken(data.authenticationToken)
-        navigate(Routes.INDEX)
+        navigate(Routes.LANDING)
       },
       onError(error) {
         form.setErrors({ otp: formatErrorMessage(error) })

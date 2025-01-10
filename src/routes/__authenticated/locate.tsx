@@ -10,6 +10,7 @@ import { APIProvider, AdvancedMarker, Map } from '@vis.gl/react-google-maps'
 import axios from 'axios'
 import { useState } from 'react'
 import { When } from 'react-if'
+import i18n from '@/i18n'
 import { useNavigate } from 'react-router-dom'
 import CommonLayout from '@/layouts/common-layout'
 import AppError from '@/components/shared/app-error'
@@ -30,7 +31,7 @@ export function Component() {
   const { mutate, isPending } = useProfileControllerUpdateUserProfile({
     mutation: {
       onSuccess() {
-        navigate(Routes.SURVEY_INFO)
+        navigate(Routes.FAS_FAC)
       },
       onError() {
         //TODO: implement toast

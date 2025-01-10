@@ -35,15 +35,23 @@ export function Component() {
       }
       if (!isLoading) {
         if (error?.response?.status === 404) {
-          navigate(Routes.SURVEY_INFO)
+          navigate(Routes.FAS_FAC)
         }
         if (!scaleInfo) {
-          navigate(Routes.LANGUAGE)
+          if (profileInfo.pincode) {
+            navigate(Routes.FAS_FAC)
+          } else {
+            navigate(Routes.LOCATE)
+          }
           return
         }
         if (scaleInfo) {
           if (!scaleInfo.completed) {
-            navigate(Routes.LANGUAGE)
+            if (profileInfo.pincode) {
+              navigate(Routes.FAS_FAC)
+              return
+            }
+            navigate(Routes.LOCATE)
             return
           }
           if (isEmpty(profileInfo.profession)) {

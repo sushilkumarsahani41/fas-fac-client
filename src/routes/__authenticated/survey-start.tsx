@@ -14,13 +14,17 @@ import { EffectCards } from 'swiper/modules'
 import { SwiperSlide } from 'swiper/react'
 import { Swiper } from 'swiper/react'
 import i18n from '@/i18n'
+import {useState} from "react";
 
 export function Component() {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const [searchValue] = useState<string>('English')
   const { mutate } = useAppControllerUpdateScaleCurrentQuestionId({
     mutation: {
       onSuccess() {
+        localStorage.setItem('selectedLanguage', searchValue)
+        i18n.changeLanguage(searchValue.slice(0, 2).toLowerCase())
         navigate(Routes.SURVEY)
       },
     },

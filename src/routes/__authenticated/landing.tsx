@@ -5,9 +5,28 @@ import Routes from '@/data/routes'
 import CommonLayout from '@/layouts/common-layout'
 import { useNavigate } from 'react-router-dom'
 import Typewriter from 'typewriter-effect'
+import {useAppControllerGetKarmaScale} from "@/api/survey.ts";
+import {useAtom} from "jotai/index";
+import {accessTokenAtom} from "@/data/store.ts";
+import {useProfileControllerGetUserProfile} from "@/api/auth.ts";
 
 export function Component() {
-  const navigate = useNavigate()
+    const [accessToken] = useAtom(accessTokenAtom)
+    const { data: scaleInfo } = useAppControllerGetKarmaScale({
+        query: {
+            enabled: !!accessToken,
+            retry: 0,
+        },
+    })
+    const { data: profileInfo } = useProfileControllerGetUserProfile({
+        query: {
+            enabled: !!accessToken,
+            retry: 0,
+        },
+    })
+
+    const navigate = useNavigate()
+
   return (
     <CommonLayout>
       <main className="relative h-screen bg-gradient-to-t from-black to-orange">
@@ -36,7 +55,23 @@ export function Component() {
                     .typeString('Data. Immersion. Action.')
                     .pauseFor(3000)
                     .callFunction(() => {
-                      navigate(Routes.FAS_FAC)
+                        if (!scaleInfo) {
+                            if (profileInfo?.pincode) {
+                                navigate(Routes.FAS_FAC)
+                                return
+                            } else {
+                                navigate('/locate')
+                                return
+                            }
+                        }
+                        if (scaleInfo) {
+                            if (!scaleInfo.completed) {
+                                navigate(Routes.SURVEY)
+                                return
+                            }
+                        } else {
+                            navigate('/locate')
+                        }
                     })
                     .start()
                 }}
