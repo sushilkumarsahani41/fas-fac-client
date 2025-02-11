@@ -56,6 +56,18 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      perspective: {
+        DEFAULT: '1000px',
+      },
+      transform: {
+        'rotate-y-180': 'rotateY(180deg)',
+      },
+      transformStyle: {
+        '3d': 'preserve-3d',
+      },
+      backface: {
+        hidden: 'hidden',
+      },
     },
   },
   plugins: [],

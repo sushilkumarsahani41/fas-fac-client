@@ -31,7 +31,7 @@ export function Component() {
   const { mutate, isPending } = useProfileControllerUpdateUserProfile({
     mutation: {
       onSuccess() {
-        navigate(Routes.FAS_FAC)
+        navigate(Routes.CAUSE)
       },
       onError() {
         //TODO: implement toast

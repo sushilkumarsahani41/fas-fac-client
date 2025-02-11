@@ -57,7 +57,7 @@ export function Component() {
                     .callFunction(() => {
                         if (!scaleInfo) {
                             if (profileInfo?.pincode) {
-                                navigate(Routes.FAS_FAC)
+                                navigate(Routes.CAUSE)
                                 return
                             } else {
                                 navigate('/locate')

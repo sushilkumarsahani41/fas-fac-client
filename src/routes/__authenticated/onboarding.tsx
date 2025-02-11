@@ -1,6 +1,6 @@
 import CommonLayout from '@/layouts/common-layout'
 import Navbar from '@/components/shared/navbar'
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import {Button, TextInput, Select } from '@mantine/core'
 import {
   useProfileControllerGetUserMeta,
@@ -8,13 +8,14 @@ import {
 import { FaArrowRight } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
 import AppError from '@/components/shared/app-error'
-
+import dayjs from 'dayjs'
 import Footer from '@/components/footer'
 import {  nationalities } from '@/data/country-data'
 import {useFasfacUserPrefsControllerUpdate} from "@/api/survey.ts"
 import {useAtom} from "jotai";
 import {initatePaymentAtom, pledgeAmountAtom, userPrefIdAtom} from "@/data/store.ts"
 import Routes from "@/data/routes.ts"
+import {DateInput} from "@mantine/dates"
 
 
 export function Component() {
@@ -25,7 +26,7 @@ export function Component() {
   const [phoneNumber, setPhoneNumber] = useState(null)
   const [amountPledge] = useAtom(pledgeAmountAtom)
   const [userPrefId] = useAtom(userPrefIdAtom)
-  const [age, setAge] = useState(0)
+  const [dob, setDob] = useState<Date | null>(dayjs().subtract(18, 'year').toDate())
   const [nationality, setNationality] = useState(null)
   const [profession, setProfession] = useState(null)
   const [gender, setGender] = useState(null)
@@ -60,7 +61,6 @@ export function Component() {
     }
 
     const updateData = {
-      age: age,
       amountPledge: amountPledge,
       fullName: fullName,
       gender: gender,
@@ -88,12 +88,15 @@ export function Component() {
                   onChange={(value) => setFullName(value.target.value)}
                   placeholder="Full Name" />
               <br />
-              <TextInput
+              <DateInput
                   size="md"
                   radius="md"
-                  type="number"
-                  onChange={(value) => setAge(parseInt(event.target.value, 10))}
-                  placeholder="Age"
+                  placeholder="Date of birth"
+                  minDate={dayjs().subtract(150, 'year').toDate()}
+                  maxDate={dayjs().subtract(18, 'year').toDate()}
+                  key="dob"
+                  value={dob}
+                  onChange={setDob}
               />
               <br />
               <Select
@@ -104,6 +107,15 @@ export function Component() {
                   placeholder="Nationality"
                   data={nationalities}
              />
+              <br/>
+              <Select
+                  size="md"
+                  searchable
+                  radius="md"
+                  onChange={(value) => setNationality(value)}
+                  placeholder="Qualification"
+                  data={userMeta?.qualifications}
+              />
             </div>
             <div className="w-full">
               <TextInput
@@ -124,6 +136,16 @@ export function Component() {
                   onChange={(value) => setGender(value)}
               />
               <br />
+              <Select
+                  searchable
+                  size="md"
+                  radius="md"
+                  key="Profession"
+                  placeholder="Ethnicity"
+                  data={userMeta?.ethnicities}
+                  onChange={(value) => setProfession(value)}
+              />
+              <br/>
               <Select
                   searchable
                   size="md"

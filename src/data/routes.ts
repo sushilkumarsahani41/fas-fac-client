@@ -17,7 +17,9 @@ enum Routes {
   CAUSE='/cause-selection',
   PLEDGE= '/pledge',
   PAYMENT='/payment',
-  VERIFYPAYMENT='/verify-payment'
+  VERIFYPAYMENT='/verify-payment',
+  REWARD='/rewardpage',
+  ACCOUNTSCR='/accountscr'
 }
 
 export default Routes

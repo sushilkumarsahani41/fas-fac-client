@@ -1,5 +1,6 @@
 import { Button } from '@mantine/core'
 import React from 'react'
+// @ts-ignore
 import i18n from '@/i18n'
 
 type Props = {

@@ -64,7 +64,9 @@ export function Component() {
           responseQueryKey={queryKey}
           totalQuestionLength={allQuestions.length}
         />
-        <Footer />
+        <div className="m-auto max-w-7xl my-8 px-4">
+          <Footer />
+        </div>
       </>
     )
   }
