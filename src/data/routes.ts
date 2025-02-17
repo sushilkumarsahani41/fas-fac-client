@@ -19,7 +19,9 @@ enum Routes {
   PAYMENT='/payment',
   VERIFYPAYMENT='/verify-payment',
   REWARD='/rewardpage',
-  ACCOUNTSCR='/accountscr'
+  ACCOUNTSCR='/accountscr',
+  PRIVACYPOLICY='/privacy-policy',
+  TERMSOFUSE='/terms-of-use',
 }
 
 export default Routes

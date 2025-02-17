@@ -1,12 +1,12 @@
 const Footer = () => {
     return (
-        <div className="footer flex justify-between items-center p-4 bg-gray-800 text-white">
+        <div className="footer flex gap-4 justify-between items-center p-4 bg-gray-800 text-white">
             <div className="left-section">
                 <p>© Copyright 2024 | All Rights Reserved | Legal Company - IMGlobal Media Private Limited</p>
             </div>
             <div className="right-section flex gap-4">
                 <a
-                    href="https://impresario-global.com/terms-of-use"
+                    href="/terms-of-use"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 hover:underline"
@@ -14,7 +14,7 @@ const Footer = () => {
                     Terms of Use
                 </a>
                 <a
-                    href="https://impresario-global.com/privacy-policy"
+                    href="/privacy-policy"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 hover:underline"
